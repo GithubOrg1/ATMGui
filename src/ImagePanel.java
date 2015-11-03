@@ -3,7 +3,9 @@ import javax.swing.*;
 
 public class ImagePanel extends JPanel
 {
-  private Image img;
+ 
+	private static final long serialVersionUID = 1L;
+private Image img;
 
   public ImagePanel (Image img)
   {

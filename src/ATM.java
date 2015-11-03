@@ -1,19 +1,19 @@
 
 public class ATM
 {
-  private boolean userAuthenticated;	// whether user is authenticated
+  public boolean userAuthenticated;	// whether user is authenticated
   private int currentAccountNumber;	// current user's account number
   private GuiScreen screen;	// ATM's screen
   private GuiKeyPad keypad;	// ATM's keypad
   private CashDispenser cashDispenser;	// ATM's cash dispenser
   private DepositSlot depositSlot;	// ATM's deposit slot
   private BankDatabase bankDatabase;	// account information database
+  private GuiATM gatm;
   // constants corresponding to main menu options
   private static final int BALANCE_INQUIRY = 1;
   private static final int WITHDRAWAL = 2;
   private static final int DEPOSIT = 3;
   private static final int EXIT = 4;
-  private GuiATM gatm;
 
   // ATM constructor initializes instance variables
   public ATM (GuiATM gatm)
@@ -32,34 +32,42 @@ public class ATM
     //start up ...
     screen.displayMessageLine("Ready for service.\nPlease insert your card.\n<----------");
   
+  
   }				// end no-argument ATM constructor
   // start ATM
   
   public void run ()
   {
-    // welcome and authenticate user; perform transactions
-	// loop while user is not yet authenticated
-	while (!userAuthenticated)
-	  {
-	    screen.displayMessageLine ("/nWelcome");
-	    authenticateUser ();	// authenticate user
-	  }			// end while
-
-	performTransactions ();	// user is now authenticated
-	userAuthenticated = false;	// reset before next ATM session
-	currentAccountNumber = 0;	// reset before next ATM session
-	screen.displayMessageLine ("\nThank you! Goodbye!");
+	  while(true){
+		  System.out.println("11");
+	    // welcome and authenticate user; perform transactions
+		// loop while user is not yet authenticated
+		while (!userAuthenticated)
+		  {
+		    authenticateUser ();	// authenticate user
+		  }			// end while
+	
+		performTransactions ();	// user is now authenticated
+		userAuthenticated = false;	// reset before next ATM session
+		currentAccountNumber = 0;	// reset before next ATM session
+		screen.displayMessageLine ("\nThank you! Goodbye!");
+	  }
   }				// end method run
 
   // attempts to authenticate user against database
-  private void authenticateUser ()
+  public void authenticateUser ()
   {
-    screen.displayMessage ("\nPlease enter your account number: ");
-    screen.displayMessageLine (keypad.getString ());
-    int accountNumber = keypad.intoInt (keypad.getString ());	// input account number
+	screen.clearScreen();
+    screen.displayMessage ("Welcome\nPlease enter your account number: ");
+    String str1 = keypad.getString();
+    screen.displayMessage (str1);
+	int	accountNumber = keypad.intoInt(str1);// input account number
+	
     screen.displayMessage ("\nEnter your PIN: ");	// prompt for PIN
-    screen.displayMessageLine (keypad.getString ());
-    int pin = keypad.intoInt (keypad.getString ());	// input PIN
+    String str2 = keypad.getString();
+    screen.displayMessage (str2);
+	int	pin = keypad.intoInt(str2);// input PIN
+	
     // set userAuthenticated to boolean value returned by database
     userAuthenticated = bankDatabase.authenticateUser (accountNumber, pin);
 
@@ -69,8 +77,7 @@ public class ATM
 	currentAccountNumber = accountNumber;	// save user's account #
       }				// end if
     else
-      screen.
-	displayMessageLine
+      screen.displayMessageLine
 	("Invalid account number or PIN. Please try again.");
   }				// end method authenticateUser
 
@@ -118,7 +125,10 @@ public class ATM
     screen.displayMessageLine ("3 - Deposit funds");
     screen.displayMessageLine ("4 - Exit\n");
     screen.displayMessage ("Enter a choice: ");
-    return keypad.intoInt (keypad.getString ());	// return user's selection
+	int	number = Integer.parseInt(keypad.getString ());
+
+	return number;	// return user's selection
+	
   }				// end method displayMainMenu
 
   // return object of specified Transaction subclass

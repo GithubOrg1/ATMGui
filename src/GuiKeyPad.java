@@ -17,7 +17,7 @@ public class GuiKeyPad extends Panel{
 	public static final String[] names=
 		{"1","2","3","4","5","6","7","8","9","0","Delete","Enter"};
 	private GridLayout gridLayout;
-	private static int i;
+	//private static int i;
 	
 	public GuiKeyPad()
 	{
@@ -116,6 +116,7 @@ public class GuiKeyPad extends Panel{
             {
             	enterKeyPressed();
             	System.out.println(str);
+            	str="";
             }
         });
 	}
@@ -126,12 +127,12 @@ public class GuiKeyPad extends Panel{
 		System.out.println(str);
 		return str;
 	}
-	private String getKeyPadInput(int digit){
+	/*private String getKeyPadInput(int digit){
 		str+=names[digit];
 		System.out.println(str);
 		return str;
 	}
-	
+	*/
 	private String deleteKeyPressed(){
 		if (!str.isEmpty())
 		  str=str.substring(0,str.length()-1);
@@ -157,4 +158,6 @@ public class GuiKeyPad extends Panel{
 		else
 			return 0;
 	} // end method getInput
+	
+	
 }

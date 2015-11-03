@@ -13,6 +13,8 @@ public class GuiScreen extends Panel {
 	
 	public GuiScreen(){
 		txt=new JTextArea();
+		txt.setLineWrap(true);
+		txt.setWrapStyleWord(true);
 		add(txt);
 		setBackground(new Color(240,255,255));
 		//txt.setOpaque(false);
@@ -27,18 +29,23 @@ public class GuiScreen extends Panel {
 	// display a message without a carriage return
 		public void displayMessage( String message )
 		{
-			txt.append(message );
+			txt.append(message);
 		} // end method displayMessage
 
 		// display a message with a carriage return
 		public void displayMessageLine( String message )
 		{
-			txt.append("\n"+message );
+			txt.append(message);
 		} // end method displayMessageLine
 
 		// displays a dollar amount
 		public void displayDollarAmount( double amount )
 		{
-			txt.append( "$"+amount/100);
+			txt.append(String.format("$%,.2f", amount));
 		} // end method displayDollarAmount
+		
+		public void clearScreen()
+		{
+			txt.setText("");
+		}
 }
