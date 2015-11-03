@@ -1,6 +1,62 @@
 
-public class ATM
+public class ATM implements Runnable
 {
+	
+    /** Not currently reading input - ignore keys (except CANCEL)
+     */
+    private static final int IDLE_MODE = 0;
+  
+    /** Read input in PIN mode - allow user to enter several characters,
+     *  and to clear the line if the user wishes; echo as asterisks
+     */
+    private static final int PIN_MODE = 1;
+  
+    /** Read input in amount mode - allow user to enter several characters,
+     *  and to clear the line if the user wishes; echo what use types
+     */
+    private static final int AMOUNT_MODE = 2;
+  
+    /** Read input in menu choice mode - wait for one digit key to be pressed,
+     *  and return value immediately.
+     */
+    private static final int MENU_MODE = 3;
+	
+	
+    // State information
+
+    
+    /** The current state of the ATM - one of the possible values listed below
+     */
+    private int state;
+    
+    /** Becomes true when the operator panel informs the ATM that the switch has
+     *  been turned on - becomes false when the operator panel informs the ATM
+     *  that the switch has been turned off.
+     */
+    private boolean switchOn;
+    
+    /** Becomes true when the card reader informs the ATM that a card has been
+     *  inserted - the ATM will make this false when it has tried to read the
+     *  card
+     */
+    private boolean cardInserted; 
+
+
+    // Possible values for state
+    
+    
+    /** The ATM is off.  The switch must be turned on before it can operate
+     */
+    private static final int OFF_STATE = 0;
+    
+    /** The ATM is on, but idle.  It can service a customer, or it can be shut down
+     */
+    private static final int IDLE_STATE = 1;
+    
+    /** The ATM is servicing a customer.
+     */
+    private static final int SERVING_CUSTOMER_STATE = 2;	
+	
   public boolean userAuthenticated;	// whether user is authenticated
   private int currentAccountNumber;	// current user's account number
   private GuiScreen screen;	// ATM's screen
@@ -32,10 +88,118 @@ public class ATM
     //start up ...
     screen.displayMessageLine("Ready for service.\nPlease insert your card.\n<----------");
   
+    state = IDLE_STATE;
+    switchOn = true;
+    cardInserted = false;       
+  
   
   }				// end no-argument ATM constructor
   // start ATM
   
+  /** The main program/applet will create a Thread that executes
+   *  this code.
+   */
+  public void run()
+  {
+      
+      
+      while (true)
+      {
+		  System.out.println(".");
+          switch(state)
+          {
+              case OFF_STATE:
+              
+                  screen.displayMessageLine("Not currently available");
+
+                  synchronized(this)
+                  {
+                      try
+                      { 
+                          wait();
+                      }
+                      catch(InterruptedException e)
+                      { }
+                  }
+                  
+                  if (switchOn)
+                  {
+                      state = IDLE_STATE;
+                  }
+                                          
+                  break;
+                  
+              case IDLE_STATE:
+              
+                  screen.displayMessageLine("Please insert your card");
+                  cardInserted = false;
+                                      
+                  synchronized(this)
+                  {
+                      try
+                      { 
+                          wait();
+                      }
+                      catch(InterruptedException e)
+                      { }
+                  }       
+                  
+                  if (cardInserted)
+                  {
+                      state = SERVING_CUSTOMER_STATE;
+                  }
+                  else if (! switchOn)
+                  {
+                      state = OFF_STATE;
+                  }
+                  
+                  break;
+          
+              case SERVING_CUSTOMER_STATE:
+                                  
+                  // The following will not return until the session has
+                  // completed
+				  System.out.println("S");
+				  authenticateUser();
+                  performTransactions ();	// user is now authenticated
+                  
+                  state = IDLE_STATE;
+                  
+                  break;
+              
+          }
+      }
+  }
+              
+  
+  /** Inform the ATM that the switch on the operator console has been moved
+   *  to the "on" position.
+   */
+  public synchronized void switchOn()
+  {
+      switchOn = true;
+      notify();
+  }
+  
+  /** Inform the ATM that the switch on the operator console has been moved
+   *  to the "off" position.
+   */
+  public synchronized void switchOff()
+  {
+      switchOn = false;
+      notify();
+  }
+  
+  /** Inform the ATM that a card has been inserted into the card reader.
+   */
+  public synchronized void cardInserted()
+  {
+	  System.out.println("CARD IN\n");
+      cardInserted = true;
+      notify();
+  }
+  
+  /*
   public void run ()
   {
 	  while(true){
@@ -54,17 +218,22 @@ public class ATM
 	  }
   }				// end method run
 
+
+*/
   // attempts to authenticate user against database
   public void authenticateUser ()
   {
 	screen.clearScreen();
-    screen.displayMessage ("Welcome\nPlease enter your account number: ");
-    String str1 = keypad.getString();
-    screen.displayMessage (str1);
-	int	accountNumber = keypad.intoInt(str1);// input account number
+  //  screen.displayMessage ("Welcome\nPlease enter your account number: ");
+  //  String str1 = keypad.getString();
+  //  screen.displayMessage (str1);
+  //	int	accountNumber = keypad.intoInt(str1);// input account number
+  	int	accountNumber = 100;
 	
-    screen.displayMessage ("\nEnter your PIN: ");	// prompt for PIN
-    String str2 = keypad.getString();
+    screen.displayMessage ("\nPIN: ");	// prompt for PIN
+    String str2 = keypad.readInput(PIN_MODE, 4);
+	
+	System.out.println("PIN INPUT END.");
     screen.displayMessage (str2);
 	int	pin = keypad.intoInt(str2);// input PIN
 	

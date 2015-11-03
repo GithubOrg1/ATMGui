@@ -23,40 +23,43 @@ public class GuiATM extends JFrame
   private static final long serialVersionUID = 1L;
   public GuiScreen screen;
   public GuiKeyPad keypad;
-  
+
 
   public GuiATM ()
   {
 
     screen = new GuiScreen ();
-    keypad = new GuiKeyPad ();
+    keypad = new GuiKeyPad (screen);
 
     final ATM theATM = new ATM (this);
-    
-    Panel p = new Panel();
-    JButton btn = new JButton(">>CARD HERE<<");
-    btn.setSize(30, 30);
-    p.add(btn,BorderLayout.CENTER);
-    btn.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e)
-        {
-        	theATM.authenticateUser ();
-        }
-    });
+
+    // Start the Thread that runs the ATM
+     new Thread(theATM).start();
+	
+    Panel p = new Panel ();
+    JButton btn = new JButton (">>CARD HERE<<");
+      btn.setSize (30, 30);
+      p.add (btn, BorderLayout.CENTER);
+      btn.addActionListener (new ActionListener ()
+			     {
+			     public void actionPerformed (ActionEvent e)
+			     {
+			     theATM.cardInserted ();}
+			     });
 
 
-      setLayout (new GridLayout (2, 2));
-      add (new ImagePanel (
-		      new ImageIcon("cardslot.jpeg").getImage())); //Card slot
-      add (new JScrollPane(screen));
-      add (p);
-      add (keypad, BorderLayout.WEST);
-      
+    setLayout (new GridLayout (2, 2));
+    add (new ImagePanel (new ImageIcon ("cardslot.jpeg").getImage ()));	//Card slot
+    add (new JScrollPane (screen));
+    add (p);
+    add (keypad, BorderLayout.WEST);
+
 
   }
-  
-  	public boolean isCardReceived(){
-  		return true;
-  	}
-  
+
+  public boolean isCardReceived ()
+  {
+    return true;
+  }
+
 }

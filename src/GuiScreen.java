@@ -12,9 +12,9 @@ public class GuiScreen extends Panel {
 	private JTextArea txt;
 	
 	public GuiScreen(){
-		txt=new JTextArea();
+		txt=new JTextArea(10, 24);
 		txt.setLineWrap(true);
-		txt.setWrapStyleWord(true);
+		txt.setWrapStyleWord(false);
 		add(txt);
 		setBackground(new Color(240,255,255));
 		//txt.setOpaque(false);
@@ -24,6 +24,11 @@ public class GuiScreen extends Panel {
 		//txt.setText(txt.getText()+str);
 		System.out.println(str);
 		txt.append(str+"\n");
+	}
+	
+	public void setEcho(String msg)
+	{
+		System.out.println(msg);
 	}
 	
 	// display a message without a carriage return
