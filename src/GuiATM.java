@@ -34,8 +34,8 @@ public class GuiATM extends JFrame
     final ATM theATM = new ATM (this);
 
     // Start the Thread that runs the ATM
-     new Thread(theATM).start();
-	
+    new Thread (theATM).start ();
+
     Panel p = new Panel ();
     JButton btn = new JButton (">>CARD HERE<<");
       btn.setSize (30, 30);
@@ -44,7 +44,8 @@ public class GuiATM extends JFrame
 			     {
 			     public void actionPerformed (ActionEvent e)
 			     {
-			     theATM.cardInserted ();}
+			     theATM.cardInserted ();
+			     }
 			     });
 
 

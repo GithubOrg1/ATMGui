@@ -26,96 +26,39 @@ public class GuiKeyPad extends Panel
 
   public GuiKeyPad (GuiScreen disp)
   {
-	display =   disp;
-	
+    display = disp;
+
     gridLayout = new GridLayout (4, 3, 5, 5);
     buttons = new JButton[12];
     for (int count = 0; count < 12; count++)
       {
-		buttons[count] = new JButton (names[count]);
-		add (buttons[count]);
+	buttons[count] = new JButton (names[count]);
+	add (buttons[count]);
       }
     setLayout (gridLayout);
 
     //--------------------------------------------------------------
-    buttons[0].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[0]);
-				  System.out.println (str);}
-				  });
-    buttons[1].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[1]);
-				  System.out.println (str);}
-				  });
-    buttons[2].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[2]);
-				  System.out.println (str);}
-				  });
-    buttons[3].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[3]);
-				  System.out.println (str);}
-				  });
-    buttons[4].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[4]);
-				  System.out.println (str);}
-				  });
-    buttons[5].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[5]);
-				  System.out.println (str);}
-				  });
-    buttons[6].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[6]);
-				  System.out.println (str);}
-				  });
-    buttons[7].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[7]);
-				  System.out.println (str);}
-				  });
-    buttons[8].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[8]);
-				  System.out.println (str);}
-				  });
-    buttons[9].addActionListener (new ActionListener ()
-				  {
-				  public void actionPerformed (ActionEvent e)
-				  {
-				  getKeyPadInput (names[9]);
-				  System.out.println (str);}
-				  });
+
+    for (int i = 0; i < 10; i++)
+      buttons[i].addActionListener (new ActionListener ()
+				    {
+				    public void actionPerformed (ActionEvent
+								 e)
+				    {
+				    digitKeyPressed (Integer.
+						     parseInt (e.
+							       getActionCommand
+							       ()));}
+				    });
 
     //--------------------------------------------------------------
     buttons[10].addActionListener (new ActionListener ()
 				   {
 				   public void actionPerformed (ActionEvent e)
 				   {
-				   deleteKeyPressed ();
-				   System.out.println (str);}
+				   clearKeyPressed ();
+				   System.out.println (str);
+				   }
 				   });
 
     buttons[10].setForeground (Color.black);
@@ -126,30 +69,22 @@ public class GuiKeyPad extends Panel
 				   public void actionPerformed (ActionEvent e)
 				   {
 				   enterKeyPressed ();
-				   System.out.println (str); str = "";}
+				   System.out.println (str);
+				   str = "";
+				   }
 				   });
 
     buttons[11].setForeground (Color.black);
     buttons[11].setBackground (new Color (128, 128, 255));	// Light blue
-	
-	
-	
-    currentInput = new StringBuffer(); mode = IDLE_MODE; }
 
 
-  private String getKeyStroke ()
-  {
-    return keystroke;
+
+    currentInput = new StringBuffer ();
+    mode = IDLE_MODE;
   }
-  
-  private String getKeyPadInput (GuiScreen scr, String digit)
-  {
-    if (scr != null)
-      {
-		  //scr.setEcho(digit);
-      }
-    return digit;
-  }
+
+
+
 
   private String getKeyPadInput (String digit)
   {
@@ -158,19 +93,7 @@ public class GuiKeyPad extends Panel
     System.out.println (str);
     return str;
   }
-  /*private String getKeyPadInput(int digit){
-     str+=names[digit];
-     System.out.println(str);
-     return str;
-     }
-   */
-  private String deleteKeyPressed ()
-  {
-    if (!str.isEmpty ())
-      str = str.substring (0, str.length () - 1);
-    System.out.println (str);
-    return str;
-  }
+
 
 
   public String getString ()
@@ -195,203 +118,204 @@ public class GuiKeyPad extends Panel
    *  @param maxValue the maximum acceptable value (used in MENU_MODE only)
    *  @return the line that was entered - null if user pressed CANCEL.
    */
-  synchronized String readInput(int mode, int maxValue)
+  synchronized String readInput (int mode, int maxValue)
   {
-      this.mode = mode;
-      this.maxValue = maxValue;
-      currentInput.setLength(0);
-      cancelled = false;
-      if (mode == AMOUNT_MODE)
-          setEcho("0.00");
-      else
-          setEcho("");
-      requestFocus();
-      
-      try
-      {
-          wait();
-      }
-      catch(InterruptedException e)
-      { }
-      
-      this.mode = IDLE_MODE;
-      
-      if (cancelled)
-          return null;
-      else
-          return currentInput.toString();
+    this.mode = mode;
+    this.maxValue = maxValue;
+    currentInput.setLength (0);
+    cancelled = false;
+    if (mode == AMOUNT_MODE)
+      setEcho ("0.00");
+    else
+      setEcho ("");
+    requestFocus ();
+
+    try
+    {
+      wait ();
+    }
+    catch (InterruptedException e)
+    {
+    }
+
+    this.mode = IDLE_MODE;
+
+    if (cancelled)
+      return null;
+    else
+      return currentInput.toString ();
   }
-  
+
   /** Handle a digit key
    *
    *  @param digit the value on the key
    */
-  private synchronized void digitKeyPressed(int digit)
+  private synchronized void digitKeyPressed (int digit)
   {
-      switch (mode)
+    switch (mode)
       {
-          case IDLE_MODE:
-          
-              break;
-              
-          case PIN_MODE:
-          {
-              currentInput.append(digit);
-              StringBuffer echoString = new StringBuffer();
-              for (int i = 0; i < currentInput.length(); i ++)
-                  echoString.append('*');
-              setEcho(echoString.toString());
-              break;
-          }
-              
-          case AMOUNT_MODE:
-          {           
-              currentInput.append(digit);
-              String input = currentInput.toString();
-              if (input.length() == 1)
-                  setEcho("0.0" + input);
-              else if (input.length() == 2)
-                  setEcho("0." + input);
-              else
-                  setEcho(input.substring(0, input.length() - 2) + "." +
-                      input.substring(input.length() - 2));
-              break;
-          }
-          
-          case MENU_MODE:
-          {
-              if (digit > 0 && digit <= maxValue)
-              {
-                  currentInput.append(digit);
-                  notify();
-              }
-              else
-                  getToolkit().beep();
-              break;
-          }               
+      case IDLE_MODE:
+
+	break;
+
+      case PIN_MODE:
+	{
+	  currentInput.append (digit);
+	  StringBuffer echoString = new StringBuffer ();
+	  //for (int i = 0; i < currentInput.length(); i ++)
+	  echoString.append ('*');
+	  setEcho (echoString.toString ());
+	  break;
+	}
+
+      case AMOUNT_MODE:
+	{
+	  currentInput.append (digit);
+	  String input = currentInput.toString ();
+	  if (input.length () == 1)
+	    setEcho ("0.0" + input);
+	  else if (input.length () == 2)
+	    setEcho ("0." + input);
+	  else
+	    setEcho (input.substring (0, input.length () - 2) + "." +
+		     input.substring (input.length () - 2));
+	  break;
+	}
+
+      case MENU_MODE:
+	{
+	  if (digit > 0 && digit <= maxValue)
+	    {
+	      currentInput.append (digit);
+	      notify ();
+	    }
+	  else
+	    getToolkit ().beep ();
+	  break;
+	}
       }
   }
-  
+
   /** Handle the ENTER key
    */
-  private synchronized void enterKeyPressed()
+  private synchronized void enterKeyPressed ()
   {
-      switch(mode)
+    switch (mode)
       {
-          case IDLE_MODE:
-          
-              break;
-              
-          case PIN_MODE:
-          case AMOUNT_MODE:
-          
-              if (currentInput.length() > 0)
-                  notify();
-              else
-                  getToolkit().beep();
-              break;
-                  
-          case MENU_MODE:
-          
-              getToolkit().beep();
-              break;
+      case IDLE_MODE:
+
+	break;
+
+      case PIN_MODE:
+      case AMOUNT_MODE:
+
+	if (currentInput.length () > 0)
+	  notify ();
+	else
+	  getToolkit ().beep ();
+	break;
+
+      case MENU_MODE:
+
+	getToolkit ().beep ();
+	break;
       }
-  }           
-              
+  }
+
   /** Handle the CLEAR key
    */
-  private synchronized void clearKeyPressed()
+  private synchronized void clearKeyPressed ()
   {
-      switch(mode)
+    switch (mode)
       {
-          case IDLE_MODE:
-          
-              break;
-              
-          case PIN_MODE:
-          
-              currentInput.setLength(0);
-              setEcho("");
-              break;
-              
-          case AMOUNT_MODE:
-          
-              currentInput.setLength(0);
-              setEcho("0.00");
-              break;
-              
-          case MENU_MODE:
-          
-              getToolkit().beep();
-              break;
+      case IDLE_MODE:
+
+	break;
+
+      case PIN_MODE:
+
+	currentInput.setLength (0);
+	setEcho ("");
+	break;
+
+      case AMOUNT_MODE:
+
+	currentInput.setLength (0);
+	setEcho ("0.00");
+	break;
+
+      case MENU_MODE:
+
+	getToolkit ().beep ();
+	break;
       }
-  }           
-              
+  }
+
   /** Handle the CANCEL KEY
    */
-  private synchronized void cancelKeyPressed()
+  private synchronized void cancelKeyPressed ()
   {
-      switch(mode)
+    switch (mode)
       {
-          case IDLE_MODE:
-          
-              // It is possible to press the cancel key when requested
-              // to insert an envelope - so notify the envelope acceptor
-              // of this fact (notification is ignored if acceptor is
-              // not waiting for an envelope)
-              
-              
-          case PIN_MODE:
-          case AMOUNT_MODE:
-          case MENU_MODE:
-          
-              cancelled = true;
-              notify();
+      case IDLE_MODE:
+
+	// It is possible to press the cancel key when requested
+	// to insert an envelope - so notify the envelope acceptor
+	// of this fact (notification is ignored if acceptor is
+	// not waiting for an envelope)
+
+
+      case PIN_MODE:
+      case AMOUNT_MODE:
+      case MENU_MODE:
+
+	cancelled = true;
+	notify ();
       }
-  }           
-  
+  }
+
   /** Set the echo string displayed on the display
    *
    *  @param echo the text to set the echo to (the whole line)
    */
-  private void setEcho(String echo)
+  private void setEcho (String echo)
   {
-      display.setEcho(echo);
+    display.setEcho (echo);
   }
-  
 
-  
+
+
   /** Current input mode - one of the values defined below
    */
   private int mode;
-  
+
   /** Not currently reading input - ignore keys (except CANCEL)
    */
   private static final int IDLE_MODE = 0;
-  
+
   /** Read input in PIN mode - allow user to enter several characters,
    *  and to clear the line if the user wishes; echo as asterisks
    */
   private static final int PIN_MODE = 1;
-  
+
   /** Read input in amount mode - allow user to enter several characters,
    *  and to clear the line if the user wishes; echo what use types
    */
   private static final int AMOUNT_MODE = 2;
-  
+
   /** Read input in menu choice mode - wait for one digit key to be pressed,
    *  and return value immediately.
    */
   private static final int MENU_MODE = 3;
-  
+
   /** Current partial line of input
    */
   private StringBuffer currentInput;
-  
+
   /** Cancellation flag - set to true if user cancels
    */
   private boolean cancelled;
-  
+
   /** Maximum valid value - used in MENU_MODE only
    */
   private int maxValue;
