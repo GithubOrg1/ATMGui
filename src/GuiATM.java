@@ -31,10 +31,10 @@ public class GuiATM extends JFrame
     screen = new GuiScreen ();
     keypad = new GuiKeyPad ();
 
-    ATM theATM = new ATM (this);
+    final ATM theATM = new ATM (this);
     
     Panel p = new Panel();
-    JButton btn = new JButton("ȷ�ϲ忨");
+    JButton btn = new JButton(">>CARD HERE<<");
     btn.setSize(30, 30);
     p.add(btn,BorderLayout.CENTER);
     btn.addActionListener(new ActionListener() {
