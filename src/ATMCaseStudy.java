@@ -11,5 +11,5 @@ public class ATMCaseStudy
       ATM.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
       ATM.setBounds (100, 100, 400, 500);
       ATM.setVisible (true);
-  }				// end main
-}				// end class ATMCaseStudy
+  }	// end main
+}// end class ATMCaseStudy

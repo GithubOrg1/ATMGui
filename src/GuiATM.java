@@ -58,9 +58,9 @@ public class GuiATM extends JFrame
 
   }
 
-  public boolean isCardReceived ()
+ /* public boolean isCardReceived ()
   {
     return true;
   }
-
+*/
 }

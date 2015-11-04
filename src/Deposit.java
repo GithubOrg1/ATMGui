@@ -4,7 +4,9 @@ public class Deposit extends Transaction
   private GuiKeyPad keypad;	// reference to keypad
   private DepositSlot depositSlot;	// reference to deposit slot
   private final static int CANCELED = 0;	// constant for cancel option
-
+  private int ifCanceled;
+  private final static int UNCANCELED = 1;
+  
   // Deposit constructor
   public Deposit (int userAccountNumber, GuiScreen atmScreen,
 		  BankDatabase atmBankDatabase, GuiKeyPad atmKeypad,
@@ -25,21 +27,50 @@ public class Deposit extends Transaction
     GuiScreen screen = getScreen ();	// get reference
 
 	screen.clearScreen();
+	screen.displayMessage ("\nPlease enter a deposit amount in \n CENTS (or 0 to cancel): ");
     amount = promptForDepositAmount ();	// get deposit amount from user
+    
+    ifCanceled = lala();
 
     // check whether user entered a deposit amount or canceled
-    if (amount != CANCELED)
+    switch(ifCanceled)
       {
 	// request deposit envelope containing specified amount
-	screen.
-	  displayMessage ("\nPlease insert a deposit envelope containing ");
-	screen.displayDollarAmount (amount);
-	screen.displayMessageLine (".");
+    case UNCANCELED:
+		screen.
+		  displayMessage ("\nPlease insert a deposit envelope containing ");
+		screen.displayDollarAmount (amount);
+		screen.displayMessageLine (".");
+		screen.displayMessageLine ("Your envelope has been received."
+				+ "\nNOTE: The money just deposited will not "
+			       +
+			       "\nbe available until we verify the amount of "
+			       + "any enclosed cash and your checks clear.");
+		break;
+    case CANCELED:
+    	screen.displayMessageLine ("\nCanceling transaction...");
+	}
 
+    try
+    {
+      // to sleep 10 seconds
+      Thread.sleep (4000);
+    } catch (InterruptedException e)
+    {
+      // recommended because catching
+      // InterruptedException clears interrupt
+      // flag
+      Thread.currentThread ().interrupt ();
+      // you probably want to quit if the
+      // thread is interrupted
+    }
+	  
+	  }
 	// receive deposit envelope
-	boolean envelopeReceived = depositSlot.isEnvelopeReceived ();
+	//int envelopeReceived = depositSlot.isEnvelopeReceived ();
 
 	// check whether deposit envelope was received
+	/*
 	if (envelopeReceived)
 	  {
 	    screen.displayMessageLine ("\nYour envelope has been " +
@@ -60,8 +91,8 @@ public class Deposit extends Transaction
     else			// user canceled instead of entering amount
       {
 	screen.displayMessageLine ("\nCanceling transaction...");
-      }				// end else
-  }				// end method execute
+      }				// end else*/
+  			// end method execute
 
   // prompt user to enter a deposit amount in cents
   private double promptForDepositAmount ()
@@ -69,19 +100,34 @@ public class Deposit extends Transaction
     GuiScreen screen = getScreen ();	// get reference to screen
 
     // display the prompt
-    screen.displayMessage ("\nPlease enter a deposit amount in " +
-			   "CENTS (or 0 to cancel): ");
+    //screen.displayMessage ("\nPlease enter a deposit amount in \n CENTS (or 0 to cancel): ");
     int input = keypad.intoInt (keypad.readInput (AMOUNT_MODE, 0));	// receive input of deposit amount
 
     // check whether the user canceled or entered a valid amount
-    if (input == CANCELED)
-      return CANCELED;
-    else
-      {
+
 	return (double) input / 100;	// return dollar amount
-      }				// end else
+     			// end else
   }				// end method promptForDepositAmount
 
+  private int lala()
+  {
+	  int num = ab();
+	  
+	  switch(num)
+	  {
+	  case 0:ifCanceled = CANCELED;break;
+	  case 1:ifCanceled = UNCANCELED;break;
+	  }
+			
+	  return ifCanceled;
+  }
+  
+  private int ab()
+  {
+	  double deposit = promptForDepositAmount ();
+	  if(deposit>0) return 1;
+	  else return 0;
+  }
 
   /** Not currently reading input - ignore keys (except CANCEL)
    */
@@ -101,6 +147,8 @@ public class Deposit extends Transaction
    *  and return value immediately.
    */
   private static final int MENU_MODE = 3;
+  
+
 
 
 }				// end class Deposit

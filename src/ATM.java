@@ -20,6 +20,12 @@ public class ATM implements Runnable
      *  and return value immediately.
      */
   private static final int MENU_MODE = 3;
+  
+  /** Read input in ACCOUNT mode - allow user to enter several characters,
+   *  and to clear the line if the user wishes; echo as asterisks
+   */
+  private static final int ACCOUNT_MODE = 4;
+
 
 
   // State information
@@ -238,11 +244,11 @@ public class ATM implements Runnable
   public void authenticateUser ()
   {
     screen.clearScreen ();
-    //  screen.displayMessage ("Welcome\nPlease enter your account number: ");
-    //  String str1 = keypad.getString();
+    screen.displayMessage ("Welcome\nPlease enter your \n account number: ");
+    String str1 = keypad.readInput (ACCOUNT_MODE, 4);
     //  screen.displayMessage (str1);
     //    int     accountNumber = keypad.intoInt(str1);// input account number
-    int accountNumber = 12345;
+    int accountNumber = keypad.intoInt(str1);
 
     screen.displayMessage ("\nPIN: ");	// prompt for PIN
     String str2 = keypad.readInput (PIN_MODE, 4);
@@ -328,7 +334,7 @@ public class ATM implements Runnable
     screen.displayMessageLine ("2 - Withdraw cash");
     screen.displayMessageLine ("3 - Deposit funds");
     screen.displayMessageLine ("4 - Exit");
-    screen.displayMessage ("\nEnter a choice: ");
+    screen.displayMessage ("\nEnter a choice ");
     int number = Integer.parseInt (keypad.readInput (MENU_MODE, 4));
 
     return number;		// return user's selection

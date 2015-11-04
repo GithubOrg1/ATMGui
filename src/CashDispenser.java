@@ -17,13 +17,13 @@ public class CashDispenser
   }				// end method dispenseCash
 
   // indicates whether cash dispenser can dispense desired amount
-  public boolean isSufficientCashAvailable (int amount)
+  public int isSufficientCashAvailable (int amount)
   {
     int billsRequired = amount / 20;	// number of $20 bills required
 
     if (count >= billsRequired)
-      return true;		// enough bills available
+      return 1;		// enough bills available
     else
-      return false;		// not enough bills available
+      return 0;		// not enough bills available
   }				// end method isSufficientCashAvailable
 }				// end class CashDispenser

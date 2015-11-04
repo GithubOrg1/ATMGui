@@ -123,7 +123,7 @@ public class GuiKeyPad extends Panel
     this.mode = mode;
     this.maxValue = maxValue;
     currentInput.setLength (0);
-    cancelled = false;
+    //cancelled = false;
     if (mode == AMOUNT_MODE)
       setEcho ("0.00");
     else
@@ -140,9 +140,9 @@ public class GuiKeyPad extends Panel
 
     this.mode = IDLE_MODE;
 
-    if (cancelled)
-      return null;
-    else
+   // if (cancelled)
+      //return null;
+    //else
       return currentInput.toString ();
   }
 
@@ -167,6 +167,17 @@ public class GuiKeyPad extends Panel
 	  setEcho (echoString.toString ());
 	  break;
 	}
+	
+      case ACCOUNT_MODE:
+  	{
+  	  currentInput.append (digit);
+  	  //String input = currentInput.toString ();
+  	  //StringBuffer echoString = new StringBuffer ();
+  	  //for (int i = 0; i < currentInput.length(); i ++)
+  	  //echoString.append (Integer.toString(digit));
+  	  setEcho (Integer.toString(digit));
+  	  break;
+  	}
 
       case AMOUNT_MODE:
 	{
@@ -184,6 +195,7 @@ public class GuiKeyPad extends Panel
 
       case MENU_MODE:
 	{
+		
 	  if (digit > 0 && digit <= maxValue)
 	    {
 	      currentInput.append (digit);
@@ -208,6 +220,7 @@ public class GuiKeyPad extends Panel
 
       case PIN_MODE:
       case AMOUNT_MODE:
+      case ACCOUNT_MODE:
 
 	if (currentInput.length () > 0)
 	  notify ();
@@ -237,6 +250,12 @@ public class GuiKeyPad extends Panel
 	currentInput.setLength (0);
 	setEcho ("");
 	break;
+	
+      case ACCOUNT_MODE:
+
+    currentInput.setLength (0);
+    setEcho ("");
+    break;
 
       case AMOUNT_MODE:
 
@@ -253,7 +272,7 @@ public class GuiKeyPad extends Panel
 
   /** Handle the CANCEL KEY
    */
-  private synchronized void cancelKeyPressed ()
+  /*private synchronized void cancelKeyPressed ()
   {
     switch (mode)
       {
@@ -272,7 +291,7 @@ public class GuiKeyPad extends Panel
 	cancelled = true;
 	notify ();
       }
-  }
+  }*/
 
   /** Set the echo string displayed on the display
    *
@@ -307,6 +326,12 @@ public class GuiKeyPad extends Panel
    *  and return value immediately.
    */
   private static final int MENU_MODE = 3;
+  
+  /** Read input in ACCOUNT mode - allow user to enter several characters,
+   *  and to clear the line if the user wishes; echo as asterisks
+   */
+  private static final int ACCOUNT_MODE = 4;
+
 
   /** Current partial line of input
    */
@@ -314,7 +339,7 @@ public class GuiKeyPad extends Panel
 
   /** Cancellation flag - set to true if user cancels
    */
-  private boolean cancelled;
+  //private boolean cancelled;
 
   /** Maximum valid value - used in MENU_MODE only
    */
