@@ -124,9 +124,9 @@ public class GuiKeyPad extends Panel
     this.maxValue = maxValue;
     currentInput.setLength (0);
     //cancelled = false;
-    if (mode == AMOUNT_MODE)
-      setEcho ("0.00");
-    else
+   // if (mode == AMOUNT_MODE)
+      //setEcho ("0.00");
+    //else
       setEcho ("");
     requestFocus ();
 
@@ -182,14 +182,16 @@ public class GuiKeyPad extends Panel
       case AMOUNT_MODE:
 	{
 	  currentInput.append (digit);
-	  String input = currentInput.toString ();
+	  //String input = currentInput.toString ();
+	  setEcho(Integer.toString(digit));
+	  /*
 	  if (input.length () == 1)
 	    setEcho ("0.0" + input);
 	  else if (input.length () == 2)
 	    setEcho ("0." + input);
 	  else
 	    setEcho (input.substring (0, input.length () - 2) + "." +
-		     input.substring (input.length () - 2));
+		     input.substring (input.length () - 2));*/
 	  break;
 	}
 
@@ -260,7 +262,7 @@ public class GuiKeyPad extends Panel
       case AMOUNT_MODE:
 
 	currentInput.setLength (0);
-	setEcho ("0.00");
+	setEcho ("");
 	break;
 
       case MENU_MODE:

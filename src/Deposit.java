@@ -23,14 +23,14 @@ public class Deposit extends Transaction
   // perform transaction
    @Override public void execute ()
   {
-    BankDatabase bankDatabase = getBankDatabase ();	// get reference
+    //BankDatabase bankDatabase = getBankDatabase ();	// get reference
     GuiScreen screen = getScreen ();	// get reference
 
 	screen.clearScreen();
 	screen.displayMessage ("\nPlease enter a deposit amount in \n CENTS (or 0 to cancel): ");
     amount = promptForDepositAmount ();	// get deposit amount from user
     
-    ifCanceled = lala();
+    ifCanceled = state();
 
     // check whether user entered a deposit amount or canceled
     switch(ifCanceled)
@@ -38,14 +38,14 @@ public class Deposit extends Transaction
 	// request deposit envelope containing specified amount
     case UNCANCELED:
 		screen.
-		  displayMessage ("\nPlease insert a deposit envelope containing ");
+		  displayMessage ("\nPlease insert a deposit envelope \ncontaining ");
 		screen.displayDollarAmount (amount);
 		screen.displayMessageLine (".");
 		screen.displayMessageLine ("Your envelope has been received."
-				+ "\nNOTE: The money just deposited will not "
-			       +
-			       "\nbe available until we verify the amount of "
-			       + "any enclosed cash and your checks clear.");
+				+ "\nNOTE: The money just deposited "
+				+ "\nwill not be available until we verify "
+				+ "\nthe amount of any enclosed cash"
+				+ "\n and your checks clear.");
 		break;
     case CANCELED:
     	screen.displayMessageLine ("\nCanceling transaction...");
@@ -97,7 +97,7 @@ public class Deposit extends Transaction
   // prompt user to enter a deposit amount in cents
   private double promptForDepositAmount ()
   {
-    GuiScreen screen = getScreen ();	// get reference to screen
+    //GuiScreen screen = getScreen ();	// get reference to screen
 
     // display the prompt
     //screen.displayMessage ("\nPlease enter a deposit amount in \n CENTS (or 0 to cancel): ");
@@ -109,9 +109,9 @@ public class Deposit extends Transaction
      			// end else
   }				// end method promptForDepositAmount
 
-  private int lala()
+  private int state()
   {
-	  int num = ab();
+	  int num = ifDeposit(amount);
 	  
 	  switch(num)
 	  {
@@ -122,9 +122,9 @@ public class Deposit extends Transaction
 	  return ifCanceled;
   }
   
-  private int ab()
+  private int ifDeposit(double amount)
   {
-	  double deposit = promptForDepositAmount ();
+	  double deposit = amount;
 	  if(deposit>0) return 1;
 	  else return 0;
   }
