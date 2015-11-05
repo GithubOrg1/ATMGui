@@ -188,13 +188,7 @@ public class GuiKeyPad extends Panel {
 
         case ACCOUNT_MODE: {
             currentInput.append(digit);
-
-            //String input = currentInput.toString ();
-            //StringBuffer echoString = new StringBuffer ();
-            //for (int i = 0; i < currentInput.length(); i ++)
-            //echoString.append (Integer.toString(digit));
             setEcho(Integer.toString(digit));
-
             break;
         }
 
@@ -203,15 +197,6 @@ public class GuiKeyPad extends Panel {
 
             //String input = currentInput.toString ();
             setEcho(Integer.toString(digit));
-
-            /*
-            if (input.length () == 1)
-              setEcho ("0.0" + input);
-            else if (input.length () == 2)
-              setEcho ("0." + input);
-            else
-              setEcho (input.substring (0, input.length () - 2) + "." +
-                       input.substring (input.length () - 2));*/
             break;
         }
 

@@ -83,37 +83,9 @@ public class Deposit extends Transaction {
             // you probably want to quit if the
             // thread is interrupted
         }
-    }
-
-    // receive deposit envelope
-    //int envelopeReceived = depositSlot.isEnvelopeReceived ();
-    // check whether deposit envelope was received
-
-    /*
-    if (envelopeReceived)
-      {
-        screen.displayMessageLine ("\nYour envelope has been " +
-                                   "received.\nNOTE: The money just deposited will not "
-                                   +
-                                   "be available until we verify the amount of any "
-                                   +
-                                   "enclosed cash and your checks clear.");
-    //credit account to reflect the deposit
-        bankDatabase.credit (getAccountNumber (), amount);
-      }                        // end if
-    else                        // deposit envelope not received
-      {
-        screen.displayMessageLine ("\nYou did not insert an " +
-                                   "envelope, so the ATM has canceled your transaction.");
-      }                        // end else
-    }                                // end if
-    else                        // user canceled instead of entering amount
-    {
-    screen.displayMessageLine ("\nCanceling transaction...");
-    }                                // end else*/
-
-    // end method execute
-    // prompt user to enter a deposit amount in cents
+    }  // end method execute
+    
+	// prompt user to enter a deposit amount in cents
     private double promptForDepositAmount() {
         //GuiScreen screen = getScreen ();	// get reference to screen
         // display the prompt
@@ -133,12 +105,10 @@ public class Deposit extends Transaction {
         switch (num) {
         case 0:
             ifCanceled = CANCELED;
-
             break;
 
         case 1:
             ifCanceled = UNCANCELED;
-
             break;
         }
 

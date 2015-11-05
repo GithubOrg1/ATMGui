@@ -178,28 +178,6 @@ public class ATM implements Runnable {
         notify();
     }
 
-    /*
-       public void run ()
-       {
-       while(true){
-       System.out.println("11");
-       // welcome and authenticate user; perform transactions
-       // loop while user is not yet authenticated
-       while (!userAuthenticated)
-       {
-       authenticateUser ();       // authenticate user
-       }                  // end while
-
-       performTransactions ();    // user is now authenticated
-       userAuthenticated = false; // reset before next ATM session
-       currentAccountNumber = 0;  // reset before next ATM session
-       screen.displayMessageLine ("\nThank you! Goodbye!");
-       }
-       }                          // end method run
-
-
-     */
-
     // attempts to authenticate user against database
     public void authenticateUser() {
         screen.clearScreen();

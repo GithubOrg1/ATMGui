@@ -1,21 +1,5 @@
 public class Withdrawal extends Transaction {
-    /** Not currently reading input - ignore keys (except CANCEL)
-     */
-
-    // private static final int IDLE_MODE = 0;
-
-    /** Read input in PIN mode - allow user to enter several characters,
-     *  and to clear the line if the user wishes; echo as asterisks
-     */
-
-    //private static final int PIN_MODE = 1;
-
-    /** Read input in amount mode - allow user to enter several characters,
-     *  and to clear the line if the user wishes; echo what use types
-     */
-
-    //private static final int AMOUNT_MODE = 2;
-
+ 
     /** Read input in menu choice mode - wait for one digit key to be pressed,
      *  and return value immediately.
      */
@@ -79,50 +63,6 @@ public class Withdrawal extends Transaction {
 
                 break;
             }
-
-            // check whether user chose a withdrawal amount or canceled
-
-            /*
-            if (amount != CANCELED)
-              {
-                // get available balance of account involved
-                availableBalance =
-                  bankDatabase.getAvailableBalance (getAccountNumber ());
-
-                // check whether the user has enough money in the account
-                if (amount <= availableBalance)
-                  {
-                    // check whether the cash dispenser has enough money
-                    if (cashDispenser.isSufficientCashAvailable (amount))
-                      {
-                        // update the account involved to reflect the withdrawal
-                        bankDatabase.debit (getAccountNumber (), amount);
-
-                        cashDispenser.dispenseCash (amount);        // dispense cash
-                        cashDispensed = true;        // cash was dispensed
-                        // instruct user to take cash
-                        screen.displayMessageLine ("Your cash has been dispensed.");
-                        screen.displayMessageLine ("Please take your cash now.");
-                      }                // end if
-                    else                // cash dispenser does not have enough cash
-                      screen.displayMessageLine
-                        ("Insufficient cash available in the ATM." +
-                         "Please choose a smaller amount.");
-                  }                        // end if
-                else                // not enough money available in user's account
-                  {
-                    screen.displayMessageLine
-                      ("Insufficient funds in your account." +
-                       "Please choose a smaller amount.");
-                  }                        // end else
-              }                        // end if
-            else                        // user chose cancel menu option
-              {
-                screen.displayMessageLine("\nCanceling transaction...");
-                return;                // return to main menu because user canceled
-              }                        // end else
-
-              */
 
             // delay here
             // delay 2s and back to main menu 
