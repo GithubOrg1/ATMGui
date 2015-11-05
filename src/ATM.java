@@ -18,6 +18,7 @@ public class ATM implements Runnable {
      */
     private static final int MENU_MODE = 3;
 
+<<<<<<< HEAD
     // Possible values for state
 
     /** The ATM is off.  The switch must be turned on before it can operate
@@ -38,6 +39,33 @@ public class ATM implements Runnable {
     private static final int DEPOSIT = 3;
     private static final int EXIT = 4;
 
+=======
+    /** Read input in ACCOUNT mode - allow user to enter several characters,
+     *  and to clear the line if the user wishes; echo as asterisks
+     */
+    private static final int ACCOUNT_MODE = 4;
+
+    // Possible values for state
+
+    /** The ATM is off.  The switch must be turned on before it can operate
+     */
+    private static final int OFF_STATE = 0;
+
+    /** The ATM is on, but idle.  It can service a customer, or it can be shut down
+     */
+    private static final int IDLE_STATE = 1;
+
+    /** The ATM is servicing a customer.
+     */
+    private static final int SERVING_CUSTOMER_STATE = 2;
+
+    // constants corresponding to main menu options
+    private static final int BALANCE_INQUIRY = 1;
+    private static final int WITHDRAWAL = 2;
+    private static final int DEPOSIT = 3;
+    private static final int EXIT = 4;
+
+>>>>>>> zyc
     // State information
 
     /** The current state of the ATM - one of the possible values listed below
@@ -199,12 +227,22 @@ public class ATM implements Runnable {
     // attempts to authenticate user against database
     public void authenticateUser() {
         screen.clearScreen();
+<<<<<<< HEAD
 
         //  screen.displayMessage ("Welcome\nPlease enter your account number: ");
         //  String str1 = keypad.getString();
         //  screen.displayMessage (str1);
         //    int     accountNumber = keypad.intoInt(str1);// input account number
         int accountNumber = 12345;
+=======
+        screen.displayMessage("Welcome\nPlease enter your \n account number: ");
+
+        String str1 = keypad.readInput(ACCOUNT_MODE, 4);
+
+        //  screen.displayMessage (str1);
+        //    int     accountNumber = keypad.intoInt(str1);// input account number
+        int accountNumber = keypad.intoInt(str1);
+>>>>>>> zyc
 
         screen.displayMessage("\nPIN: "); // prompt for PIN
 
@@ -293,7 +331,11 @@ public class ATM implements Runnable {
         screen.displayMessageLine("2 - Withdraw cash");
         screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Exit");
+<<<<<<< HEAD
         screen.displayMessage("\nEnter a choice: ");
+=======
+        screen.displayMessage("\nEnter a choice ");
+>>>>>>> zyc
 
         int number = Integer.parseInt(keypad.readInput(MENU_MODE, 4));
 
