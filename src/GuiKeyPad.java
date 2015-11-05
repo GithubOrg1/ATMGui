@@ -261,18 +261,21 @@ public class GuiKeyPad extends Panel {
             break;
 
         case PIN_MODE:
+            display.displayMessageLine("PIN: ");
             currentInput.setLength(0);
             setEcho("");
 
             break;
 
         case ACCOUNT_MODE:
+            display.displayMessageLine("Again account: ");
             currentInput.setLength(0);
             setEcho("");
 
             break;
 
         case AMOUNT_MODE:
+            display.displayMessageLine("Again amount: ");
             currentInput.setLength(0);
             setEcho("");
 
