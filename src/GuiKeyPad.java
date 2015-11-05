@@ -33,14 +33,13 @@ public class GuiKeyPad extends Panel {
      *  and return value immediately.
      */
     private static final int MENU_MODE = 3;
-<<<<<<< HEAD
-=======
+
 
     /** Read input in ACCOUNT mode - allow user to enter several characters,
      *  and to clear the line if the user wishes; echo as asterisks
      */
     private static final int ACCOUNT_MODE = 4;
->>>>>>> zyc
+
     private String str = "";
     private JButton[] buttons;
     private GridLayout gridLayout;
@@ -57,12 +56,9 @@ public class GuiKeyPad extends Panel {
 
     /** Cancellation flag - set to true if user cancels
      */
-<<<<<<< HEAD
-    private boolean cancelled;
-=======
 
-    //private boolean cancelled;
->>>>>>> zyc
+    private boolean cancelled;
+
 
     /** Maximum valid value - used in MENU_MODE only
      */
@@ -137,12 +133,8 @@ public class GuiKeyPad extends Panel {
             return 0;
         }
     }
-<<<<<<< HEAD
-     // end method getInput
-=======
-
     // end method getInput
->>>>>>> zyc
+
 
     /** Read input from the keyboard
      *
@@ -154,23 +146,9 @@ public class GuiKeyPad extends Panel {
         this.mode = mode;
         this.maxValue = maxValue;
         currentInput.setLength(0);
-<<<<<<< HEAD
-        cancelled = false;
 
-        if (mode == AMOUNT_MODE) {
-            setEcho("0.00");
-        } else {
-            setEcho("");
-        }
-
-=======
-
-        //cancelled = false;
-        // if (mode == AMOUNT_MODE)
-        //setEcho ("0.00");
-        //else
         setEcho("");
->>>>>>> zyc
+
         requestFocus();
 
         try {
@@ -180,109 +158,7 @@ public class GuiKeyPad extends Panel {
 
         this.mode = IDLE_MODE;
 
-<<<<<<< HEAD
-        if (cancelled) {
-            return null;
-        } else {
-            return currentInput.toString();
-        }
-    }
 
-    /** Handle a digit key
-     *
-     *  @param digit the value on the key
-     */
-    private synchronized void digitKeyPressed(int digit) {
-        switch (mode) {
-        case IDLE_MODE:
-            break;
-
-        case PIN_MODE: {
-            currentInput.append(digit);
-
-            StringBuffer echoString = new StringBuffer();
-
-            //for (int i = 0; i < currentInput.length(); i ++)
-            echoString.append('*');
-            setEcho(echoString.toString());
-
-            break;
-        }
-
-        case AMOUNT_MODE: {
-            currentInput.append(digit);
-
-            String input = currentInput.toString();
-
-            if (input.length() == 1) {
-                setEcho("0.0" + input);
-            } else if (input.length() == 2) {
-                setEcho("0." + input);
-            } else {
-                setEcho(input.substring(0, input.length() - 2) + "." +
-                    input.substring(input.length() - 2));
-            }
-
-            break;
-        }
-
-        case MENU_MODE: {
-            if ((digit > 0) && (digit <= maxValue)) {
-                currentInput.append(digit);
-                notify();
-            } else {
-                getToolkit().beep();
-            }
-
-            break;
-        }
-        }
-    }
-
-    /** Handle the ENTER key
-     */
-    private synchronized void enterKeyPressed() {
-        switch (mode) {
-        case IDLE_MODE:
-            break;
-
-        case PIN_MODE:
-        case AMOUNT_MODE:
-
-            if (currentInput.length() > 0) {
-                notify();
-            } else {
-                getToolkit().beep();
-            }
-
-            break;
-
-        case MENU_MODE:
-            getToolkit().beep();
-
-            break;
-        }
-    }
-
-    /** Handle the CLEAR key
-     */
-    private synchronized void clearKeyPressed() {
-        switch (mode) {
-        case IDLE_MODE:
-            break;
-
-        case PIN_MODE:
-            currentInput.setLength(0);
-            setEcho("");
-
-            break;
-
-        case AMOUNT_MODE:
-            currentInput.setLength(0);
-            setEcho("0.00");
-
-            break;
-=======
         // if (cancelled)
         //return null;
         //else
@@ -405,7 +281,7 @@ public class GuiKeyPad extends Panel {
             setEcho("");
 
             break;
->>>>>>> zyc
+
 
         case MENU_MODE:
             getToolkit().beep();
@@ -414,47 +290,6 @@ public class GuiKeyPad extends Panel {
         }
     }
 
-    /** Handle the CANCEL KEY
-     */
-<<<<<<< HEAD
-    private synchronized void cancelKeyPressed() {
-        switch (mode) {
-        case IDLE_MODE:
-
-        // It is possible to press the cancel key when requested
-        // to insert an envelope - so notify the envelope acceptor
-        // of this fact (notification is ignored if acceptor is
-        // not waiting for an envelope)
-        case PIN_MODE:
-        case AMOUNT_MODE:
-        case MENU_MODE:
-            cancelled = true;
-            notify();
-        }
-    }
-=======
-
-    /*private synchronized void cancelKeyPressed ()
-    {
-      switch (mode)
-        {
-        case IDLE_MODE:
-
-          // It is possible to press the cancel key when requested
-          // to insert an envelope - so notify the envelope acceptor
-          // of this fact (notification is ignored if acceptor is
-          // not waiting for an envelope)
-
-
-        case PIN_MODE:
-        case AMOUNT_MODE:
-        case MENU_MODE:
-
-          cancelled = true;
-          notify ();
-        }
-    }*/
->>>>>>> zyc
 
     /** Set the echo string displayed on the display
      *

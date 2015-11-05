@@ -35,36 +35,18 @@ public class GuiScreen extends Panel {
     // display a message without a carriage return
     public void displayMessage(String message) {
         txt.append(message);
-    }
-<<<<<<< HEAD
-     // end method displayMessage
+    } // end method displayMessage
 
-=======
-
-    // end method displayMessage
->>>>>>> zyc
     // display a message with a carriage return
     public void displayMessageLine(String message) {
         txt.append("\n" + message);
-    }
-<<<<<<< HEAD
-     // end method displayMessageLine
+    } // end method displayMessageLine
 
-=======
-
-    // end method displayMessageLine
->>>>>>> zyc
     // displays a dollar amount
     public void displayDollarAmount(double amount) {
         txt.append(String.format("$%,.2f", amount));
-    }
-<<<<<<< HEAD
-     // end method displayDollarAmount
+    }     // end method displayDollarAmount
 
-=======
-
-    // end method displayDollarAmount
->>>>>>> zyc
     public void clearScreen() {
         txt.setText("");
     }
